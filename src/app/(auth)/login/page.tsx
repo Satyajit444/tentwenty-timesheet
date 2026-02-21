@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { Loader2 } from "lucide-react";
 
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";

@@ -1,41 +1,97 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+
 import Badge from "../ui/Badge";
+import Pagination from "../ui/Pagination";
+import TableSkeleton from "../ui/TableSkeleton";
 import { useTimesheets } from "@/hooks/useTimesheets";
 
+const ITEMS_PER_PAGE = 5;
+
 export default function TimesheetTable() {
-  const data = useTimesheets();
+  const { data, loading } = useTimesheets();
+  const [page, setPage] = useState(1);
+
+  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+
+  const paginatedData = data.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE,
+  );
 
   return (
     <div className="p-8">
-      <h1 className="text-xl font-semibold mb-4">Your Timesheets</h1>
+      <div className="bg-white rounded-xl shadow-sm p-6">
+        <h1 className="text-lg font-semibold text-gray-800 mb-6">
+          Your Timesheets
+        </h1>
 
-      <table className="w-full border rounded">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="p-3 text-left">Week</th>
-            <th className="p-3 text-left">Date</th>
-            <th className="p-3 text-left">Status</th>
-            <th className="p-3">Action</th>
-          </tr>
-        </thead>
+        <div className="flex items-center gap-3 mb-5">
+          <button className="flex items-center gap-2 text-sm px-3 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50">
+            Date Range <ChevronDown size={16} />
+          </button>
 
-        <tbody>
-          {data.map((t: any) => (
-            <tr key={t.id} className="border-t">
-              <td className="p-3">{t.week}</td>
-              <td className="p-3">{t.dateRange}</td>
-              <td className="p-3"><Badge status={t.status} /></td>
-              <td className="p-3">
-                <Link href={`/timesheet/${t.id}`} className="text-blue-600">
-                  View
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          <button className="flex items-center gap-2 text-sm px-3 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50">
+            Status <ChevronDown size={16} />
+          </button>
+        </div>
+
+        {loading ? (
+          <TableSkeleton rows={ITEMS_PER_PAGE} />
+        ) : (
+          <div className="overflow-hidden border border-gray-200 rounded-lg">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
+                <tr>
+                  <th className="px-4 py-3 text-left">Week #</th>
+                  <th className="px-4 py-3 text-left">Date</th>
+                  <th className="px-4 py-3 text-left">Status</th>
+                  <th className="px-4 py-3 text-right">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-gray-200">
+                {paginatedData.map((t: any) => (
+                  <tr key={t.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-3">{t.week}</td>
+                    <td className="px-4 py-3">{t.dateRange}</td>
+                    <td className="px-4 py-3">
+                      <Badge status={t.status} />
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <Link
+                        href={`/timesheet/${t.id}`}
+                        className="text-blue-600 hover:underline font-medium"
+                      >
+                        {t.status === "MISSING"
+                          ? "Create"
+                          : t.status === "INCOMPLETE"
+                            ? "Update"
+                            : "View"}
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
+          <div className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-md">
+            {ITEMS_PER_PAGE} per page
+          </div>
+
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </div>
+      </div>
     </div>
   );
 }

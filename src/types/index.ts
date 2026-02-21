@@ -16,3 +16,9 @@ export interface Entry {
   description: string;
   hours: number;
 }
+
+export type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+};
