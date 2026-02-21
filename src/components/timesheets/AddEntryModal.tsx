@@ -2,15 +2,44 @@
 
 import { useForm } from "react-hook-form";
 import { api } from "@/lib/axios";
+import { useState } from "react";
 
-export default function AddEntryModal({ open, onClose, weekId, refresh }: any) {
+export default function AddEntryModal({ open, onClose, weekId, refresh, day }: any) {
   const { register, handleSubmit, reset } = useForm();
+console.log('date', day);
 
-  const submit = async (data: any) => {
-    await api.post("/entries", { ...data, weekId });
-    refresh();
-    reset();
-    onClose();
+  const [saving, setSaving] = useState(false);
+
+  const submit = async (formData: any) => {
+    if (!weekId) return;
+
+    try {
+      console.log("formData", formData);
+      console.log("day", day);
+      // return
+
+  setSaving(true);
+
+  const response = await api.post("/entries", {
+    ...formData,
+    weekId,
+    date:day
+  });
+
+  console.log("API response:", response);
+
+  await refresh();
+      reset(); // clear form
+      onClose(); // close modal only after success
+
+      console.log('data', );
+      
+    } catch (error) {
+      console.error("Failed to create entry:", error);
+      alert("Something went wrong while saving entry.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (!open) return null;
@@ -113,7 +142,7 @@ export default function AddEntryModal({ open, onClose, weekId, refresh }: any) {
             type="submit"
             className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2.5 text-sm font-medium"
           >
-            Add entry
+            {saving ? "Saving..." : "Save"}
           </button>
 
           <button

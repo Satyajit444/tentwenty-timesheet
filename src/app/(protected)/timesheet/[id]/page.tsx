@@ -9,7 +9,6 @@ import AddEntryModal from "@/components/timesheets/AddEntryModal";
 
 export default function WeekDetails() {
   const { id } = useParams() as { id: string };
-  console.log("id", id);  
   const { data: timesheet, loading, error } = useSingleTimesheet(id);
   const { data, refresh } = useEntries(id);
 
@@ -24,6 +23,21 @@ export default function WeekDetails() {
     acc[d] = data.filter((e) => e.date === d);
     return acc;
   }, {});
+
+  console.log('grouped', grouped);
+  console.log('days', days);
+  console.log('data', data);
+
+
+  data.forEach(e => {
+  console.log("ENTRY DATE:", e.date);
+});
+
+days.forEach(d => {
+  console.log("DAY:", d);
+});
+  
+  
 
   return (
     <div style={{ padding: 20 }}>
