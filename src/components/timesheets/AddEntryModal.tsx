@@ -86,7 +86,7 @@ export default function AddEntryModal({
         className="w-full max-w-xl bg-white rounded-xl shadow-lg overflow-hidden"
       >
         {/* HEADER */}
-        <div className="flex justify-between px-6 py-4 border-b">
+        <div className="flex justify-between px-6 py-4 border-b border-gray-300">
           <h2 className="text-lg font-semibold">
             {isEdit ? "Edit Entry" : "Add New Entry"}
           </h2>
@@ -107,7 +107,7 @@ export default function AddEntryModal({
 
             <select
               {...register("project", { required: "Project is required" })}
-              className="w-full border rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
             >
               <option value="">Select project</option>
               <option>Website</option>
@@ -129,7 +129,7 @@ export default function AddEntryModal({
 
             <select
               {...register("workType", { required: "Work type is required" })}
-              className="w-full border rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
             >
               <option value="">Select type</option>
               <option>Bug fixes</option>
@@ -158,7 +158,7 @@ export default function AddEntryModal({
                   message: "Minimum 5 characters required",
                 },
               })}
-              className="w-full border rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
             />
 
             {errors.description && (
@@ -174,7 +174,7 @@ export default function AddEntryModal({
               Hours *
             </label>
 
-            <div className="inline-flex items-center border rounded-lg overflow-hidden">
+            <div className="inline-flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <button
                 type="button"
                 onClick={() => setValue("hours", Math.max(1, hours - 1))}
@@ -211,7 +211,7 @@ export default function AddEntryModal({
         </div>
 
         {/* FOOTER */}
-        <div className="flex gap-3 px-6 py-4 border-t">
+        <div className="flex gap-3 px-6 py-4 border-t border-gray-300">
           <button
             type="submit"
             disabled={saving}
@@ -227,7 +227,7 @@ export default function AddEntryModal({
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 border rounded-lg py-2.5 text-sm"
+            className="flex-1 border border-gray-300 rounded-lg py-2.5 text-sm"
           >
             Cancel
           </button>
