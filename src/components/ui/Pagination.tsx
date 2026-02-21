@@ -10,7 +10,7 @@ export default function Pagination({
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="flex items-center gap-2 border border-gray-300 rounded-xl bg-white px-2 py-1">
+    <div className="flex w-fit items-center gap-2 border border-gray-300 rounded-xl bg-white px-2 py-1">
 
       <button
         onClick={() => onPageChange(currentPage - 1)}
