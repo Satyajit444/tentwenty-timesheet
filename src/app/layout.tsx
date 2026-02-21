@@ -17,9 +17,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-gray-100 min-h-screen flex flex-col`}
       >
-        <Providers>
-          <main>{children}</main>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
