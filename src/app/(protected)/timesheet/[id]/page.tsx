@@ -6,65 +6,138 @@ import { useSingleTimesheet } from "@/hooks/useSingleTimesheet";
 import { useEntries } from "@/hooks/useEntries";
 import { getDays } from "@/lib/date-utils";
 import AddEntryModal from "@/components/timesheets/AddEntryModal";
+import EntryActions from "@/components/timesheets/EntryActions";
+import { api } from "@/lib/axios";
+
+const WEEKLY_LIMIT = 40;
 
 export default function WeekDetails() {
   const { id } = useParams() as { id: string };
+
   const { data: timesheet, loading, error } = useSingleTimesheet(id);
-  const { data, refresh } = useEntries(id);
+  const { data: entries, refresh } = useEntries(id);
 
   const [open, setOpen] = useState(false);
   const [day, setDay] = useState("");
+  const [selectedEntry, setSelectedEntry] = useState<any>(null);
 
+  if (loading) return <p className="p-6">Loading...</p>;
+  if (error) return <p className="p-6 text-red-500">{error}</p>;
   if (!timesheet) return null;
 
+  // generate week days
   const days = getDays(timesheet.dateRange);
 
+  // group entries by day
   const grouped = days.reduce((acc: any, d) => {
-    acc[d] = data.filter((e) => e.date === d);
+    acc[d] = entries.filter((e: any) => e.date === d);
     return acc;
   }, {});
 
-  console.log('grouped', grouped);
-  console.log('days', days);
-  console.log('data', data);
+  // total hours
+  const totalHours = entries.reduce(
+    (sum: number, e: any) => sum + Number(e.hours || 0),
+    0,
+  );
 
+  // progress %
+  const progressPercent = Math.min((totalHours / WEEKLY_LIMIT) * 100, 100);
 
-  data.forEach(e => {
-  console.log("ENTRY DATE:", e.date);
-});
+  const progressColor =
+    totalHours >= WEEKLY_LIMIT ? "bg-green-500" : "bg-orange-400";
 
-days.forEach(d => {
-  console.log("DAY:", d);
-});
-  
-  
+  const deleteEntry = async (entryId: string) => {
+    await api.delete(`/entries/${entryId}`);
+    await refresh();
+  };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>{timesheet.dateRange}</h2>
+    <div className="max-w-4xl mx-auto p-6">
+      {/* MAIN CARD */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        {/* HEADER */}
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800">
+              This week's timesheet
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">{timesheet.dateRange}</p>
+          </div>
 
-      {days.map((d) => (
-        <div key={d} style={{ marginTop: 20 }}>
-          <b>{d}</b>
+          {/* HOURS + PROGRESS */}
+          <div className="text-right">
+            <p className="text-sm text-gray-600 mb-1">
+              {totalHours}/{WEEKLY_LIMIT} hrs
+            </p>
 
-          {grouped[d].map((e: any) => (
-            <div key={e.id}>
-              {e.project} — {e.hours} hrs
+            <div className="w-40 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className={`h-full ${progressColor} transition-all`}
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* DAYS LIST */}
+        <div className="space-y-6">
+          {days.map((d) => (
+            <div key={d} className="flex gap-6">
+              {/* DATE COLUMN */}
+              <div className="w-20 text-sm font-medium text-gray-700 pt-2">
+                {d}
+              </div>
+
+              {/* DAY CONTENT */}
+              <div className="flex-1 space-y-2">
+                {/* ENTRIES */}
+                {grouped[d].map((e: any) => (
+                  <div
+                    key={e.id}
+                    className="flex justify-between items-center border rounded-lg px-4 py-3 bg-gray-50 border-gray-300"
+                  >
+                    <div className="font-medium text-sm">{e.project}</div>
+
+                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                      <span>{e.hours} hrs</span>
+
+                      <span className="px-2 py-1 bg-blue-100 text-blue-600 rounded">
+                        {e.workType}
+                      </span>
+
+                      <EntryActions
+                        entry={e}
+                        onEdit={() => {
+                          setSelectedEntry(e);
+                          setDay(d);
+                          setOpen(true);
+                        }}
+                        onDelete={deleteEntry}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                {/* ADD TASK BUTTON */}
+                <button
+                  onClick={() => {
+                    setSelectedEntry(null);
+                    setDay(d);
+                    setOpen(true);
+                  }}
+                  className="w-full border border-dashed border-blue-300 text-blue-600 rounded-lg py-3 text-sm font-medium hover:bg-blue-50 transition"
+                >
+                  + Add new task
+                </button>
+              </div>
             </div>
           ))}
-
-          <button
-            onClick={() => {
-              setDay(d);
-              setOpen(true);
-            }}
-          >
-            + Add new task
-          </button>
         </div>
-      ))}
+      </div>
 
+      {/* MODAL */}
       <AddEntryModal
+        entry={selectedEntry}
         open={open}
         onClose={() => setOpen(false)}
         weekId={id}
