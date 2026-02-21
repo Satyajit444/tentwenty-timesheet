@@ -44,7 +44,7 @@ export default function TimesheetTable() {
         ) : (
           <div className="overflow-hidden border border-gray-200 rounded-lg">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
+              <thead className="bg-gray-50 text-gray-500 uppercase text-xs border-b border-gray-200">
                 <tr>
                   <th className="px-4 py-3 text-left">Week #</th>
                   <th className="px-4 py-3 text-left">Date</th>
@@ -56,9 +56,9 @@ export default function TimesheetTable() {
               <tbody className="divide-y divide-gray-200">
                 {paginatedData.map((t: any) => (
                   <tr key={t.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3">{t.week}</td>
+                    <td className="pl-4 py-3 bg-gray-50">{t.week}</td>
                     <td className="px-4 py-3">{t.dateRange}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 uppercase">
                       <Badge status={t.status} />
                     </td>
                     <td className="px-4 py-3 text-right">

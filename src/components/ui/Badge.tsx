@@ -10,7 +10,7 @@ export default function Badge({ status }: BadgeProps) {
   return (
     <span
       className={clsx(
-        "px-2.5 py-1 text-xs font-medium rounded-full",
+        "px-2.5 py-1 text-xs font-medium rounded-md",
         status === "COMPLETED" &&
           "bg-green-100 text-green-700",
 
