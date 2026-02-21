@@ -3,9 +3,11 @@ import { timesheets } from "@/lib/mockData";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const timesheet = timesheets.find(t => t.id === params.id);
+  const { id } = await context.params;
+
+  const timesheet = timesheets.find(t => t.id === id);
 
   if (!timesheet) {
     return NextResponse.json(

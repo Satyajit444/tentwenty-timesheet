@@ -1,27 +1,23 @@
-// lib/date-utils.ts
-export function getDaysFromDateRange(dateRange: string) {
-  if (!dateRange) return [];
+export function getDays(range: string) {
+  if (!range) return [];
 
-  const parts = dateRange.split(" ");
-  const startDay = parts[0];
-  const endDay = parts[2];
+  const parts = range.split(" ");
+  const start = parts[0];
+  const end = parts[2];
   const month = parts[3].replace(",", "");
   const year = parts[4];
 
-  const start = new Date(`${month} ${startDay}, ${year}`);
-  const end = new Date(`${month} ${endDay}, ${year}`);
+  const startDate = new Date(`${month} ${start}, ${year}`);
+  const endDate = new Date(`${month} ${end}, ${year}`);
 
   const days = [];
-  const current = new Date(start);
+  const d = new Date(startDate);
 
-  while (current <= end) {
+  while (d <= endDate) {
     days.push(
-      current.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      })
+      d.toLocaleDateString("en-US", { month: "short", day: "numeric" })
     );
-    current.setDate(current.getDate() + 1);
+    d.setDate(d.getDate() + 1);
   }
 
   return days;
