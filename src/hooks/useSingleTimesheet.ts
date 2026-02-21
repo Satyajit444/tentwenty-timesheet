@@ -1,12 +1,7 @@
 // hooks/useSingleTimesheet.ts
+import { Timesheet } from "@/types";
 import { useEffect, useState, useCallback } from "react";
 
-type Timesheet = {
-  id: string;
-  week: number;
-  dateRange: string;
-  status: string;
-};
 
 export function useSingleTimesheet(id: string) {
   const [data, setData] = useState<Timesheet | null>(null);
