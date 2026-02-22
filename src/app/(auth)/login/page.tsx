@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import styles from  "./login.module.css";
+import styles from  "./Login.module.css";
 
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
