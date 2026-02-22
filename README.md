@@ -1,36 +1,214 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TickTock Timesheet Management System
 
-## Getting Started
+A responsive timesheet management web application built with **Next.js (App Router)**, **Tailwind CSS**, and **NextAuth authentication**.
 
-First, run the development server:
+This project allows users to track weekly work entries, manage tasks per day, and monitor total working hours through a structured timesheet interface.
 
-```bash
+
+---
+
+## 🔐 Login Credentials
+
+EMAIL= admin@test.com
+
+PASSWORD= tentwentyfrontendexam@2025
+
+
+
+---
+
+## ▶️ Running the Project
+
+### Install dependencies
+
+npm install
+
+### Run development server
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+open - 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+http://localhost:3000
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Live Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Authentication
+- Credential-based login using NextAuth
+- Protected dashboard routes
+- Session-based access control
 
-## Deploy on Vercel
+### Timesheets Overview
+- Weekly timesheet list
+- Status indicator (Missing / Incomplete / Completed)
+- Pagination support
+- Mobile responsive table → card layout
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Weekly Details View
+- View entries grouped by day
+- Add new tasks per day
+- Edit existing entries
+- Delete entries
+- Automatic weekly hours calculation
+- Progress bar based on 40-hour weekly limit
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Entry Management
+- Create entry
+- Update entry
+- Delete entry
+- Form validation
+- Reusable modal for create + edit
+
+### UI / UX
+- Fully responsive layout
+- Desktop table + mobile card view
+- Skeleton loading states
+- Dropdown actions menu
+- Tailwind CSS modular architecture
+
+---
+
+## 🧠 Core System Logic
+
+The system follows a **2-level structure**:
+
+### 1. Timesheets (Weekly Containers)
+Each record represents one week.
+
+Contains:
+- Week number
+- Date range
+- Status
+- ID (used for routing)
+
+Timesheets are **predefined containers**, not generated from entries.
+
+---
+
+### 2. Entries (Actual Work Data)
+Entries belong to a specific week.
+
+Each entry contains:
+- weekId
+- date
+- project
+- work type
+- description
+- hours
+
+Entries are grouped by day inside the weekly details page.
+
+---
+
+## 🧩 Tech Stack
+
+- Next.js 14 (App Router)
+- React
+- TypeScript
+- Tailwind CSS v4
+- CSS Modules with `@apply`
+- NextAuth Credentials Provider
+- Axios
+- React Hook Form
+
+---
+
+## 📁 Project Structure
+src/
+│
+├── app/
+│ ├── (auth)/
+│ │ └── login/
+│ ├── dashboard/
+│ ├── timesheet/
+│ │ └── [id]/
+│ └── api/
+│ ├── timesheets/
+│ └── entries/
+│
+├── components/
+│ ├── ui/
+│ ├── layout/
+│ └── timesheets/
+│
+├── hooks/
+│ ├── useEntries.ts
+│ ├── useTimesheets.ts
+│ └── useSingleTimesheet.ts
+│
+├── lib/
+│ ├── axios.ts
+│ ├── mockData.ts
+│ └── date-utils.ts
+│
+└── types/
+
+
+
+---
+
+## 🎨 Styling Architecture
+
+Hybrid styling approach:
+
+- Tailwind utility classes in JSX
+- CSS Modules for grouped utilities using `@apply`
+- Train-case class naming
+- Responsive utilities handled with `@screen`
+- Tailwind v4 requires:
+
+```css
+@reference "tailwindcss";
+
+
+📡 API Routes
+Timesheets
+GET /api/timesheets
+GET /api/timesheets/[id]
+Entries
+GET /api/entries?weekId=
+POST /api/entries
+PUT /api/entries/[id]
+DELETE /api/entries/[id]
+
+All data stored in mock memory.
+
+##Responsive Behaviour
+
+Desktop:
+
+Structured table
+
+Multi-column layout
+
+Mobile:
+
+Card-based list
+
+Stacked layout
+
+Touch-friendly actions
+
+###🧪Validation Rules
+
+Project required
+
+Work type required
+
+Description minimum length
+
+Hours range 1–24
+
+🔄 State Management
+
+Local React state
+
+Custom data hooks
+
+API refresh after mutation
+
+Form reset on submit
