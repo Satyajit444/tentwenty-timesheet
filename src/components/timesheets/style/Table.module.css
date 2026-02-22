@@ -1,3 +1,6 @@
+@reference "tailwindcss";
+
+
 /* PAGE WRAPPER */
 .timesheets-page {
   @apply p-8;

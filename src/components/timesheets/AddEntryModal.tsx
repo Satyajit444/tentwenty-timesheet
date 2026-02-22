@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
-
+import styles from "./style/AddEntry.module.css";
 export default function AddEntryModal({
   open,
   onClose,
@@ -13,7 +13,6 @@ export default function AddEntryModal({
   entry, // 👈 optional (if exists → edit mode)
 }: any) {
   const isEdit = !!entry;
-  
 
   const {
     register,
@@ -35,7 +34,6 @@ export default function AddEntryModal({
 
   const hours = watch("hours") || 0;
 
-  // 👇 prefill when editing
   useEffect(() => {
     if (entry) {
       reset(entry);
@@ -54,10 +52,8 @@ export default function AddEntryModal({
       setSaving(true);
 
       if (isEdit) {
-        // UPDATE
         await api.put(`/entries/${entry.id}`, formData);
       } else {
-        // CREATE
         await api.post("/entries", {
           ...formData,
           weekId,
@@ -73,20 +69,15 @@ export default function AddEntryModal({
       alert("Something went wrong");
     } finally {
       setSaving(false);
-
     }
   };
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-slate-700/60 flex items-center justify-center z-50">
-      <form
-        onSubmit={handleSubmit(submit)}
-        className="w-full max-w-xl bg-white rounded-xl shadow-lg overflow-hidden"
-      >
-        {/* HEADER */}
-        <div className="flex justify-between px-6 py-4 border-b border-gray-300">
+    <div className={styles["modal-overlay"]}>
+      <form onSubmit={handleSubmit(submit)} className={styles["modal-form"]}>
+        <div className={styles["modal-header"]}>
           <h2 className="text-lg font-semibold">
             {isEdit ? "Edit Entry" : "Add New Entry"}
           </h2>
@@ -96,18 +87,13 @@ export default function AddEntryModal({
           </button>
         </div>
 
-        {/* BODY */}
         <div className="px-6 py-5 space-y-4">
-
-          {/* PROJECT */}
           <div>
-            <label className="text-sm font-medium block mb-1">
-              Select Project *
-            </label>
+            <label className={styles["form-label"]}>Select Project *</label>
 
             <select
               {...register("project", { required: "Project is required" })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className={styles["form-control"]}
             >
               <option value="">Select project</option>
               <option>Website</option>
@@ -121,15 +107,12 @@ export default function AddEntryModal({
             )}
           </div>
 
-          {/* WORK TYPE */}
           <div>
-            <label className="text-sm font-medium block mb-1">
-              Type of Work *
-            </label>
+            <label className={styles["form-label"]}>Type of Work *</label>
 
             <select
               {...register("workType", { required: "Work type is required" })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className={styles["form-control"]}
             >
               <option value="">Select type</option>
               <option>Bug fixes</option>
@@ -143,11 +126,8 @@ export default function AddEntryModal({
             )}
           </div>
 
-          {/* DESCRIPTION */}
           <div>
-            <label className="text-sm font-medium block mb-1">
-              Task description *
-            </label>
+            <label className={styles["form-label"]}>Task description *</label>
 
             <textarea
               rows={4}
@@ -158,7 +138,7 @@ export default function AddEntryModal({
                   message: "Minimum 5 characters required",
                 },
               })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className={styles["form-control"]}
             />
 
             {errors.description && (
@@ -168,13 +148,10 @@ export default function AddEntryModal({
             )}
           </div>
 
-          {/* HOURS */}
           <div>
-            <label className="text-sm font-medium block mb-2">
-              Hours *
-            </label>
+            <label className="text-sm font-medium block mb-2">Hours *</label>
 
-            <div className="inline-flex items-center border border-gray-300 rounded-lg overflow-hidden">
+            <div className={styles["hours-wrapper"]}>
               <button
                 type="button"
                 onClick={() => setValue("hours", Math.max(1, hours - 1))}
@@ -190,7 +167,7 @@ export default function AddEntryModal({
                   min: { value: 1, message: "Minimum 1 hour" },
                   max: { value: 24, message: "Max 24 hours per day" },
                 })}
-                className="w-16 text-center outline-none text-sm"
+                className={styles["hours-input"]}
               />
 
               <button
@@ -210,24 +187,19 @@ export default function AddEntryModal({
           </div>
         </div>
 
-        {/* FOOTER */}
-        <div className="flex gap-3 px-6 py-4 border-t border-gray-300">
+        <div className={styles["modal-footer"]}>
           <button
             type="submit"
             disabled={saving}
-            className="flex-1 bg-blue-600 text-white rounded-lg py-2.5 text-sm"
+            className={styles["primary-btn"]}
           >
-            {saving
-              ? "Saving..."
-              : isEdit
-              ? "Update Entry"
-              : "Save Entry"}
+            {saving ? "Saving..." : isEdit ? "Update Entry" : "Save Entry"}
           </button>
 
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 border border-gray-300 rounded-lg py-2.5 text-sm"
+            className={styles["secondary-btn"]}
           >
             Cancel
           </button>

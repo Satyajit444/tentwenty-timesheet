@@ -1,3 +1,6 @@
+@reference "tailwindcss";
+
+
 /* OVERLAY */
 .modal-overlay {
   @apply fixed inset-0 bg-slate-700/60 flex items-center justify-center z-50;

@@ -8,7 +8,8 @@ import { getDays } from "@/lib/date-utils";
 import AddEntryModal from "@/components/timesheets/AddEntryModal";
 import EntryActions from "@/components/timesheets/EntryActions";
 import { api } from "@/lib/axios";
-
+import styles from "./style/WeekDetails.module.css";
+import TableSkeleton from "../ui/TableSkeleton";
 const WEEKLY_LIMIT = 40;
 
 export default function WeekDetails() {
@@ -21,7 +22,7 @@ export default function WeekDetails() {
   const [day, setDay] = useState("");
   const [selectedEntry, setSelectedEntry] = useState<any>(null);
 
-  if (loading) return <p className="p-6">Loading...</p>;
+  if (loading) return <TableSkeleton rows={10} />;
   if (error) return <p className="p-6 text-red-500">{error}</p>;
   if (!timesheet) return null;
 
@@ -52,11 +53,11 @@ export default function WeekDetails() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 sm:p-6">
+    <div className={styles["week-container"]}>
       {/* MAIN CARD */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 shadow-sm">
+      <div className={styles["week-card"]}>
         {/* HEADER */}
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+        <div className={styles["week-header"]}>
           <div>
             <h2 className="text-lg font-semibold text-gray-800">
               This week's timesheet
@@ -65,12 +66,12 @@ export default function WeekDetails() {
           </div>
 
           {/* HOURS + PROGRESS */}
-          <div className="sm:text-right w-full sm:w-auto">
+          <div className={styles["progress-wrapper"]}>
             <p className="text-sm text-gray-600 mb-1">
               {totalHours}/{WEEKLY_LIMIT} hrs
             </p>
 
-            <div className="w-full sm:w-40 h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className={styles["progress-bar-bg"]}>
               <div
                 className={`h-full ${progressColor} transition-all`}
                 style={{ width: `${progressPercent}%` }}
@@ -82,23 +83,18 @@ export default function WeekDetails() {
         {/* DAYS LIST */}
         <div className="space-y-6">
           {days.map((d) => (
-            <div key={d} className="flex flex-col sm:flex-row sm:gap-6 gap-2">
+            <div key={d} className={styles["day-row"]}>
               {/* DATE COLUMN */}
-              <div className="sm:w-20 text-sm font-medium text-gray-700 sm:pt-2">
-                {d}
-              </div>
+              <div className={styles["date-column"]}>{d}</div>
 
               {/* DAY CONTENT */}
               <div className="flex-1 space-y-2">
                 {/* ENTRIES */}
                 {grouped[d].map((e: any) => (
-                  <div
-                    key={e.id}
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border rounded-lg px-4 py-3 bg-gray-50 border-gray-300"
-                  >
+                  <div key={e.id} className={styles["entry-card"]}>
                     <div className="font-medium text-sm">{e.project}</div>
 
-                    <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
+                    <div className={styles["entry-meta"]}>
                       <span>{e.hours} hrs</span>
 
                       <span className="px-2 py-1 bg-blue-100 text-blue-600 rounded">
@@ -125,7 +121,7 @@ export default function WeekDetails() {
                     setDay(d);
                     setOpen(true);
                   }}
-                  className="w-full border border-dashed border-blue-300 text-blue-600 rounded-lg py-3 text-sm font-medium hover:bg-blue-50 transition"
+                  className={styles["add-task-btn"]}
                 >
                   + Add new task
                 </button>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import styles from  "./login.module.css";
 
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -48,60 +49,54 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-white">
-      {/* LEFT — LOGIN */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-md p-8 space-y-6">
-          <div className="space-y-1">
-            <h2 className="text-3xl font-semibold text-gray-800">
-              Welcome back
-            </h2>
-            <p className="text-sm text-gray-500">
+ <div className={styles["login-container"]}>
+
+      {/* LEFT */}
+      <div className={styles["left-panel"]}>
+        <div className={styles["form-wrapper"]}>
+
+          <div>
+            <h2 className={styles["heading"]}>Welcome back</h2>
+            <p className={styles["subtext"]}>
               Sign in to continue managing your team
             </p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className={styles["form"]}>
             <div>
-              <label className="text-sm text-gray-600 block mb-1">Email</label>
+              <label className={styles["label"]}>Email</label>
               <Input
-                className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-200"
-                placeholder="name@example.com"
+                className={styles["input"]}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
             <div>
-              <label className="text-sm text-gray-600 block mb-1">
-                Password
-              </label>
+              <label className={styles["label"]}>Password</label>
               <Input
-                className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-200"
                 type="password"
-                placeholder="••••••••"
+                className={styles["input"]}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
-            <div className="text-sm">
-              <label className="flex items-center gap-2 text-gray-600">
+            <div className={styles["checkbox-row"]}>
+              <label className={styles["checkbox-label"]}>
                 <input type="checkbox" className="accent-blue-600" />
                 Remember me
               </label>
             </div>
 
             {error && (
-              <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-                {error}
-              </div>
+              <div className={styles["error-box"]}>{error}</div>
             )}
 
             <Button
               type="submit"
-              className="w-full h-11 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium"
               disabled={loading}
+              className={styles["submit-btn"]}
             >
               {loading ? "Signing in..." : "Sign in"}
             </Button>
@@ -109,38 +104,33 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* RIGHT — BRAND / HERO */}
-      <div
-        className="flex-1 flex items-center justify-center px-10 py-12
-                  bg-blue-700 text-white"
-      >
-        <div className="max-w-md space-y-6 text-center lg:text-left">
-          <div
-            className="inline-flex items-center gap-2 
-                      bg-white/10 px-4 py-2 rounded-full text-sm"
-          >
+      {/* RIGHT */}
+      <div className={styles["right-panel"]}>
+        <div className={styles["hero-wrapper"]}>
+
+          <div className={styles["hero-badge"]}>
             ✨ TickTock - Smart Timesheet Platform
           </div>
 
-          <h1 className="text-4xl font-semibold leading-tight">
+          <h1 className={styles["hero-title"]}>
             Manage time.
             <br />
             Boost productivity.
           </h1>
 
-          <p className="text-blue-100 text-sm leading-relaxed">
-            Track attendance, monitor performance, and manage employee work
-            hours from anywhere. Built for modern teams that value clarity and
-            efficiency.
+          <p className={styles["hero-text"]}>
+            Track attendance, monitor performance, and manage employee work hours.
           </p>
 
-          <div className="flex gap-4 justify-center lg:justify-start text-sm text-blue-100">
+          <div className={styles["hero-features"]}>
             <span>✔ Track time</span>
             <span>✔ View reports</span>
             <span>✔ Manage work</span>
           </div>
+
         </div>
       </div>
+
     </div>
   );
 }

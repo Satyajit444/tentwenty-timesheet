@@ -8,6 +8,7 @@ import Badge from "../ui/Badge";
 import Pagination from "../ui/Pagination";
 import TableSkeleton from "../ui/TableSkeleton";
 import { useTimesheets } from "@/hooks/useTimesheets";
+import styles from "./style/Table.module.css";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -23,18 +24,19 @@ export default function TimesheetTable() {
   );
 
   return (
-    <div className="p-8">
-      <div className="bg-white rounded-xl shadow-sm p-6">
+    <div className={styles["timesheets-page"]}>
+      <div className={styles["timesheets-card"]}>
         <h1 className="text-lg font-semibold text-gray-800 mb-6">
           Your Timesheets
         </h1>
 
-        <div className="flex items-center gap-3 mb-5">
-          <button className="flex items-center gap-2 text-sm px-3 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50">
+        {/* FILTERS */}
+        <div className={styles["filter-bar"]}>
+          <button className={styles["filter-btn"]}>
             Date Range <ChevronDown size={16} />
           </button>
 
-          <button className="flex items-center gap-2 text-sm px-3 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50">
+          <button className={styles["filter-btn"]}>
             Status <ChevronDown size={16} />
           </button>
         </div>
@@ -44,9 +46,9 @@ export default function TimesheetTable() {
         ) : (
           <>
             {/* ================= DESKTOP TABLE ================= */}
-            <div className="hidden md:block overflow-hidden border border-gray-200 rounded-lg">
+            <div className={styles["table-wrapper"]}>
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-gray-500 uppercase text-xs border-b border-gray-200">
+                <thead className={styles["table-head"]}>
                   <tr>
                     <th className="px-4 py-3 text-left">Week #</th>
                     <th className="px-4 py-3 text-left">Date</th>
@@ -57,7 +59,7 @@ export default function TimesheetTable() {
 
                 <tbody className="divide-y divide-gray-200">
                   {paginatedData.map((t: any) => (
-                    <tr key={t.id} className="hover:bg-gray-50">
+                    <tr key={t.id} className={styles["table-row"]}>
                       <td className="pl-4 py-3 bg-gray-50">{t.week}</td>
                       <td className="px-4 py-3">{t.dateRange}</td>
                       <td className="px-4 py-3 uppercase">
@@ -82,13 +84,10 @@ export default function TimesheetTable() {
             </div>
 
             {/* ================= MOBILE CARDS ================= */}
-            <div className="md:hidden space-y-3">
+            <div className={styles["mobile-list"]}>
               {paginatedData.map((t: any) => (
-                <div
-                  key={t.id}
-                  className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm"
-                >
-                  <div className="flex justify-between items-start mb-2">
+                <div key={t.id} className={styles["mobile-card"]}>
+                  <div className={styles["mobile-card-header"]}>
                     <div>
                       <p className="text-xs text-gray-500">Week</p>
                       <p className="font-semibold text-gray-800">{t.week}</p>
@@ -118,8 +117,9 @@ export default function TimesheetTable() {
           </>
         )}
 
-        <div className="flex flex-wrap items-center justify-between mt-4 text-sm text-gray-600">
-          <div className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-md">
+        {/* FOOTER */}
+        <div className={styles["table-footer"]}>
+          <div className={styles["per-page-box"]}>
             {ITEMS_PER_PAGE} per page
           </div>
 

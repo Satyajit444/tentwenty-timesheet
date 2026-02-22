@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 .login-container {
   @apply min-h-screen flex flex-col lg:flex-row bg-white;
 }
