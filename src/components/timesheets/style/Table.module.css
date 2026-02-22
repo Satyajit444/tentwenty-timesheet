@@ -1,0 +1,59 @@
+/* PAGE WRAPPER */
+.timesheets-page {
+  @apply p-8;
+}
+
+/* MAIN CARD */
+.timesheets-card {
+  @apply bg-white rounded-xl shadow-sm p-6;
+}
+
+/* FILTER BAR */
+.filter-bar {
+  @apply flex items-center gap-3 mb-5;
+}
+
+/* FILTER BUTTON */
+.filter-btn {
+  @apply flex items-center gap-2 text-sm px-3 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50;
+}
+
+/* DESKTOP TABLE WRAPPER */
+.table-wrapper {
+  @apply hidden md:block overflow-hidden border border-gray-200 rounded-lg;
+}
+
+/* TABLE HEADER */
+.table-head {
+  @apply bg-gray-50 text-gray-500 uppercase text-xs border-b border-gray-200;
+}
+
+/* TABLE ROW */
+.table-row {
+  @apply hover:bg-gray-50;
+}
+
+/* MOBILE LIST */
+.mobile-list {
+  @apply md:hidden space-y-3;
+}
+
+/* MOBILE CARD */
+.mobile-card {
+  @apply border border-gray-200 rounded-lg p-4 bg-white shadow-sm;
+}
+
+/* MOBILE CARD HEADER */
+.mobile-card-header {
+  @apply flex justify-between items-start mb-2;
+}
+
+/* PAGINATION FOOTER */
+.table-footer {
+  @apply flex flex-wrap items-center justify-between mt-4 text-sm text-gray-600;
+}
+
+/* PER PAGE BOX */
+.per-page-box {
+  @apply flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-md;
+}

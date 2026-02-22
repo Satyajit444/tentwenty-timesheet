@@ -1,0 +1,49 @@
+/* OVERLAY */
+.modal-overlay {
+  @apply fixed inset-0 bg-slate-700/60 flex items-center justify-center z-50;
+}
+
+/* FORM CONTAINER */
+.modal-form {
+  @apply w-full max-w-xl bg-white rounded-xl shadow-lg overflow-hidden;
+}
+
+/* HEADER */
+.modal-header {
+  @apply flex justify-between px-6 py-4 border-b border-gray-300;
+}
+
+/* LABEL */
+.form-label {
+  @apply text-sm font-medium block mb-1;
+}
+
+/* SELECT + TEXTAREA */
+.form-control {
+  @apply w-full border border-gray-300 rounded-lg px-3 py-2 text-sm;
+}
+
+/* HOURS WRAPPER */
+.hours-wrapper {
+  @apply inline-flex items-center border border-gray-300 rounded-lg overflow-hidden;
+}
+
+/* HOURS INPUT */
+.hours-input {
+  @apply w-16 text-center outline-none text-sm;
+}
+
+/* FOOTER */
+.modal-footer {
+  @apply flex gap-3 px-6 py-4 border-t border-gray-300;
+}
+
+/* PRIMARY BUTTON */
+.primary-btn {
+  @apply flex-1 bg-blue-600 text-white rounded-lg py-2.5 text-sm;
+}
+
+/* SECONDARY BUTTON */
+.secondary-btn {
+  @apply flex-1 border border-gray-300 rounded-lg py-2.5 text-sm;
+}

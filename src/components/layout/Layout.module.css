@@ -1,0 +1,45 @@
+/* header  */
+
+.header {
+  @apply w-full bg-white px-6 py-3 flex items-center justify-between shadow-sm;
+}
+
+/* LEFT SIDE */
+
+.left-section {
+  @apply flex items-center gap-10;
+}
+
+.logo {
+  @apply text-lg font-semibold tracking-tight;
+}
+
+.nav {
+  @apply flex items-center gap-6 text-sm text-gray-600;
+}
+
+.nav-link {
+  @apply hover:text-black transition;
+}
+
+/* RIGHT SIDE */
+
+.user-menu-wrapper {
+  @apply relative;
+}
+
+.user-button {
+  @apply flex items-center gap-2 text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-gray-100 transition;
+}
+
+.user-status {
+  @apply text-green-500 text-xs;
+}
+
+.dropdown {
+  @apply absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden;
+}
+
+.dropdown-item {
+  @apply w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50 transition;
+}

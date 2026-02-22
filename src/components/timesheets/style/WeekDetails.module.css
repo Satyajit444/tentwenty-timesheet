@@ -1,0 +1,49 @@
+/* OUTER CONTAINER */
+.week-container {
+  @apply max-w-4xl mx-auto p-4 sm:p-6;
+}
+
+/* MAIN CARD */
+.week-card {
+  @apply bg-white rounded-xl border border-gray-200 p-4 sm:p-6 shadow-sm;
+}
+
+/* HEADER */
+.week-header {
+  @apply flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6;
+}
+
+/* PROGRESS WRAPPER */
+.progress-wrapper {
+  @apply sm:text-right w-full sm:w-auto;
+}
+
+/* PROGRESS BAR */
+.progress-bar-bg {
+  @apply w-full sm:w-40 h-2 bg-gray-200 rounded-full overflow-hidden;
+}
+
+/* DAY ROW */
+.day-row {
+  @apply flex flex-col sm:flex-row sm:gap-6 gap-2;
+}
+
+/* DATE COLUMN */
+.date-column {
+  @apply sm:w-20 text-sm font-medium text-gray-700 sm:pt-2;
+}
+
+/* ENTRY CARD */
+.entry-card {
+  @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border rounded-lg px-4 py-3 bg-gray-50 border-gray-300;
+}
+
+/* ENTRY META */
+.entry-meta {
+  @apply flex flex-wrap items-center gap-3 text-xs text-gray-500;
+}
+
+/* ADD BUTTON */
+.add-task-btn {
+  @apply w-full border border-dashed border-blue-300 text-blue-600 rounded-lg py-3 text-sm font-medium hover:bg-blue-50 transition;
+}
